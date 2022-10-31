@@ -1,6 +1,6 @@
-fn = x => Math.pow(x,2)-7;
-fn1 = x => 2*x;
-newtonRaphson = x => -fn(x)/fn1(x);
+let fn = x => Math.pow(x,2)-7;
+let fn1 = x => 2*x;
+let newtonRaphson = x => -fn(x)/fn1(x);
 
 var x0 = 2;
 while(true){

@@ -1,6 +1,7 @@
 import { render } from "@testing-library/react";
 import React,{ Component } from 'react'
-import { useState } from 'react'
+import Button from 'react-bootstrap/Button';
+
 const Parser = require('expr-eval').Parser;
 
 class Bisection extends React.Component
@@ -12,6 +13,7 @@ class Bisection extends React.Component
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)    
     }
+    
 
     BisectionCalcFunction(XL,XR,ErrorApox,Funct)
     {
@@ -27,7 +29,7 @@ class Bisection extends React.Component
         var xl = parseFloat(XL);
         var xr = parseFloat(XR);
         var xm,xold;
-        var ErrorApox_Answer=10000000; //set as default
+        var ErrorApox_Answer=10000000; 
         var inputerrorapox = parseFloat(ErrorApox)
         while(ErrorApox_Answer>inputerrorapox)
             {
@@ -44,26 +46,20 @@ class Bisection extends React.Component
                 }
                 ErrorApox_Answer = Math.abs((xm-xold)/xm)*100
             i++
-            console.log("XL = "+xl)   //console log for debugging
-            console.log("XM = "+xm)
-            console.log("XR = "+xr)
-            console.log("Errorapox = "+ErrorApox_Answer)
-            render("XM = "+xm.toFixed(6)+" Errorapox = "+ErrorApox_Answer.toFixed(6)+" at iteration #"+i)//calc wont re-render so i stuck at this
+            render("XM = "+xm.toFixed(6)+" Errorapox = "+ErrorApox_Answer.toFixed(6)+" at iteration #"+i)
+              
+            
         }
-        return "XM="+xm+" at Iteration = "+i; //calc wont re-render so i stuck at this
+        return "XM="+xm+" at Iteration = "+i;
     }
-
+    
 
     handleSubmit(event){
         const {XL,XR,ErrorApox,Funct} = this.state
         
         const xm = this.BisectionCalcFunction(XL,XR,ErrorApox,Funct)
         event.preventDefault()
-        console.log("XL = "+XL)   //console log for debugging
-        console.log("XR = "+XR)
-        console.log("Function = "+Funct)
-        console.log("Errorapox = "+ErrorApox)
-        render(xm) //same here at line 53 i literally stuck at re-rendering 
+        render(xm) 
         
 
     }
@@ -76,51 +72,73 @@ class Bisection extends React.Component
 
     render(){
         return(
-          <form onSubmit={this.handleSubmit}>
-            <div>
+          <form  onSubmit={this.handleSubmit}>
+            <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                height: '10vh',
+              }}> 
                 <h1>&emsp;Bisection Method&emsp;</h1>
-              <label htmlFor='XL'>&emsp;XL :&emsp;</label>
-              <input 
-                name='XL'
-                placeholder='0.0' 
-                value = {this.state.XL}
-                onChange={this.handleChange}
-                size='8'
-              />
-              <label htmlFor='XR'>&emsp;XR :&emsp;</label>
-              <input
-                name='XR' 
-                placeholder='0.0'
-                value={this.state.XR}
-                onChange={this.handleChange}
-                size='8'
-              />
-              <label htmlFor='ErrorApox'>&emsp;ErrorApox :&emsp;</label>
-              <input
-                name='ErrorApox' 
-                placeholder='0.0'
-                value={this.state.ErrorApox}
-                onChange={this.handleChange}
-                size='5'
-              />
+            </div>
+            <div  style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                height: '5vh',
+                color: 'red',
+              }}> 
+              <div >
+                  
+                <label htmlFor='XL'>&emsp;XL :&emsp;</label>
+                <input 
+                  name='XL' 
+                  placeholder='0.0' 
+                  value = {this.state.XL}
+                  onChange={this.handleChange}
+                  size='8'
+                />
+                <label htmlFor='XR'>&emsp;XR :&emsp;</label>
+                <input
+                  name='XR' 
+                  placeholder='0.0'
+                  value={this.state.XR}
+                  onChange={this.handleChange}
+                  size='8'
+                />
+                </div>
+
+                <p></p>
+                <div>
+                <label htmlFor='ErrorApox'>&emsp;ErrorApox :&emsp;</label>
+                <input
+                  name='ErrorApox' 
+                  placeholder='0.0'
+                  value={this.state.ErrorApox}
+                  onChange={this.handleChange}
+                  size='5'
+                />
+
+                </div>
+
+                <p></p>
+
+                <div>
+                <label htmlFor='Funct'>&emsp;F(x) :&emsp;</label>
+                <input
+                  name='Funct' 
+                  placeholder='(x*x*x*x-7)'
+                  value={this.state.Funct}
+                  onChange={this.handleChange}
+                  size='28'
+                />
               </div>
-
               <p></p>
-
               <div>
-              <label htmlFor='Funct'>&emsp;function :&emsp;</label>
-              <input
-                name='Funct' 
-                placeholder='(x*x*x*x-7)'
-                value={this.state.Funct}
-                onChange={this.handleChange}
-                size='30'
-              />
+                &emsp;<button>Calculate</button>
+              </div>
             </div>
-            <p></p>
-            <div>
-            &emsp;<button>Calculate</button>
-            </div>
+            
           </form>
         )
       }
